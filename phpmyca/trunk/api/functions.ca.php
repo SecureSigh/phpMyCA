@@ -50,7 +50,7 @@ function getPageImport() {
 	if ($_WA->html->getRequestVar(WA_QS_CONFIRM) !== 'yes' or !$test) {
 		die($_WA->html->loadTemplate('ca.import.php'));
 		}
-	$rc = $_WA->actionCaImport(&$pem,&$key,&$pass,&$csr);
+	$rc = $_WA->actionCaImport($pem,$key,$pass,$csr);
 	if (!($rc === true)) {
 		$_WA->html->errorMsgSet($rc);
 		die($_WA->html->loadTemplate('ca.import.php'));

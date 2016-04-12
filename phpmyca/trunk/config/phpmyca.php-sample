@@ -11,7 +11,7 @@
 // Filesystem locations
 define('WEBAPP_DIR', '/usr/share/webapps/phpmyca');
 define('WEBAPP_API', WEBAPP_DIR . '/api');
-define('WEBAPP_TMP', WEBAPP_DIR . '/templates');
+define('WEBAPP_TMP', WEBAPP_DIR . '/templates.en');
 
 // Database Settings
 define('WEBAPP_DB_HOST', 'localhost');
@@ -31,7 +31,7 @@ define('WEBAPP_CSS_URI',  'css/phpmyca.css');
 define('WEBAPP_JS_URI',   'js/phpmyca.js');
 
 // Location of openssl_conf, required by various openssl functions
-define('OPENSSL_CONF', WEBAPP_DIR . '/config/openssl.conf');
+define('OPENSSL_CONF', '/etc/phpmyca/openssl.conf');
 
 // Debug view of certs?
 // define('DEBUG_VIEW_CERTS',true);

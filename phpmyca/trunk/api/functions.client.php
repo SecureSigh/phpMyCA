@@ -100,7 +100,7 @@ function getPageImport() {
 	if ($conf !== 'yes' or $test === false) {
 		die($_WA->html->loadTemplate('client.import.php'));
 		}
-	$rc = $_WA->actionClientImport(&$pem,&$key,&$pass,&$csr);
+	$rc = $_WA->actionClientImport($pem,$key,$pass,$csr);
 	if (!($rc === true)) {
 		$_WA->html->errorMsgSet($rc);
 		die($_WA->html->loadTemplate('client.import.php'));

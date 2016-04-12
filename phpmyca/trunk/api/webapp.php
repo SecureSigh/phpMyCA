@@ -137,6 +137,7 @@ public function actionCaAdd() {
 	$cfgargs['config'] = OPENSSL_CONF;
 	$cfgargs['x509_extensions'] = 'v3_ca';
 	// Generate private key
+	//var_dump($cfgargs);
 	$privkey = openssl_pkey_new($cfgargs);
 	if ($privkey === false) {
 		return 'Failed to generate private key: ' . openssl_error_string();
@@ -1524,7 +1525,7 @@ public function changeKeyPass($certType=null) {
 		}
 	// Have they entered the old/new passwords?
 	$this->html->setPageTitle('Enter Private Key Pass Phrase');
-	$this->html->setVar('data',&$this->$certType);
+	$this->html->setVar('data',$this->$certType);
 	$keyPass = (isset($_POST['keyPass'])) ? $_POST['keyPass'] : false;
 	$newPass = (isset($_POST['newPass'])) ? $_POST['newPass'] : false;
 	if (!$keyPass or !$newPass) {
@@ -1618,7 +1619,7 @@ public function decryptPrivateKey($certType=null) {
 		}
 	// Have they entered the password?
 	$this->html->setPageTitle('Enter Private Key Pass Phrase');
-	$this->html->setVar('data',&$this->$certType);
+	$this->html->setVar('data',$this->$certType);
 
 	$keyPass = (isset($_POST['keyPass'])) ? $_POST['keyPass'] : false;
 	if (!is_string($keyPass) or strlen($keyPass) < 1) {
@@ -1744,7 +1745,7 @@ public function encryptPrivateKey($certType=null) {
 		}
 	// Have they entered the password?
 	$this->html->setPageTitle('Enter Private Key Pass Phrase');
-	$this->html->setVar('data',&$this->$certType);
+	$this->html->setVar('data',$this->$certType);
 
 	$keyPass = (isset($_POST['keyPass'])) ? $_POST['keyPass'] : false;
 	if (!is_string($keyPass) or strlen($keyPass) < 1) {
@@ -1823,10 +1824,10 @@ public function getPageCaList() {
 	$this->moduleRequired('ca');
 	$this->ca->searchReset();
 	// apply user input (search, sort)
-	$this->setUserInput(&$this->ca);
+	$this->setUserInput($this->ca);
 	// do the query
 	$this->ca->doQueryList();
-	$this->html->setVar('list',&$this->ca);
+	$this->html->setVar('list',$this->ca);
 	die($this->html->loadTemplate('ca.list.php'));
 	}
 
@@ -1847,7 +1848,7 @@ function getPageCaPkcs12() {
 		$this->html->errorMsgSet('Failed to locate the specified certificate.');
 		die($this->html->loadTemplate('ca.view.php'));
 		}
-	$this->html->setVar('data',&$this->ca);
+	$this->html->setVar('data',$this->ca);
 	// Have they been given the chance to enter the private key password?
 	$conf    = (isset($_POST[WA_QS_CONFIRM])) ? $_POST[WA_QS_CONFIRM] : false;
 	$keyPass = (isset($_POST['keyPass'])) ? $_POST['keyPass']         : null;
@@ -1931,7 +1932,7 @@ public function getPageCaRevoke() {
 		$this->html->errorMsgSet($m);
 		die($this->getPageCaView());
 		}
-	$this->html->setVar('cert', &$cert);
+	$this->html->setVar('cert', $cert);
 
 	// Construct a recursive array that contains all of child certs that will
 	// be affected.  Starting with all ca (issuer) certificates.
@@ -1961,7 +1962,7 @@ public function getPageCaRevoke() {
 			}
 		$caCerts[] = new phpmycaCert($this->ca);
 		}
-	$this->html->setVar('caCerts', &$caCerts);
+	$this->html->setVar('caCerts', $caCerts);
 
 	// Get list of client certs the affected issuer certs have signed.
 	// Don't forget to add our current id to the ca ids ;)
@@ -1983,7 +1984,7 @@ public function getPageCaRevoke() {
 	foreach($certs as &$ar) {
 		$clientCerts[] = new phpmycaCert($ar,'client','user',false);
 		}
-	$this->html->setVar('clientCerts', &$clientCerts);
+	$this->html->setVar('clientCerts', $clientCerts);
 
 	// Get list of server certs this ca has signed
 	$this->server->searchReset();
@@ -2003,7 +2004,7 @@ public function getPageCaRevoke() {
 	foreach($certs as &$ar) {
 		$serverCerts[] = new phpmycaCert($ar,'server','user',false);
 		}
-	$this->html->setVar('serverCerts', &$serverCerts);
+	$this->html->setVar('serverCerts', $serverCerts);
 
 	// Have they confirmed?
 	if ($this->html->getRequestVar(WA_QS_CONFIRM) !== 'yes') {
@@ -2121,11 +2122,11 @@ public function getPageCaView() {
 		$signedServerCerts[] = new phpmycaCert($ar,'server','user',false);
 		}
 	// populate the template variables
-	$this->html->setVar('cert',              &$cert);
-	$this->html->setVar('issuer',            &$issuer);
-	$this->html->setVar('signedCaCerts',     &$signedCaCerts);
-	$this->html->setVar('signedClientCerts', &$signedClientCerts);
-	$this->html->setVar('signedServerCerts', &$signedServerCerts);
+	$this->html->setVar('cert',              $cert);
+	$this->html->setVar('issuer',            $issuer);
+	$this->html->setVar('signedCaCerts',     $signedCaCerts);
+	$this->html->setVar('signedClientCerts', $signedClientCerts);
+	$this->html->setVar('signedServerCerts', $signedServerCerts);
 	die($this->html->loadTemplate('ca.view.php'));
 	}
 
@@ -2138,10 +2139,10 @@ public function getPageClientList() {
 	$this->moduleRequired('client');
 	$this->client->searchReset();
 	// apply user input (search, sort)
-	$this->setUserInput(&$this->client);
+	$this->setUserInput($this->client);
 	// do the query
 	$this->client->doQueryList();
-	$this->html->setVar('list',&$this->client);
+	$this->html->setVar('list',$this->client);
 	die($this->html->loadTemplate('client.list.php'));
 	}
 
@@ -2162,7 +2163,7 @@ function getPageClientPkcs12() {
 		$this->html->errorMsgSet('Failed to locate the specified certificate.');
 		die($this->html->loadTemplate('client.view.php'));
 		}
-	$this->html->setVar('data',&$this->client);
+	$this->html->setVar('data',$this->client);
 	// Have they been given the chance to enter the private key password?
 	$conf    = (isset($_POST[WA_QS_CONFIRM])) ? $_POST[WA_QS_CONFIRM] : false;
 	$keyPass = (isset($_POST['keyPass'])) ? $_POST['keyPass']         : null;
@@ -2229,7 +2230,7 @@ public function getPageClientRevoke() {
 		die($this->getPageClientView());
 		}
 	$cert = new phpmycaCert($this->client);
-	$this->html->setVar('cert', &$cert);
+	$this->html->setVar('cert', $cert);
 
 	// Is it already revoked?
 	if ($cert->isRevoked()) {
@@ -2256,7 +2257,7 @@ public function getPageClientRevoke() {
 		die($this->getPageClientView());
 		}
 	$issuer = new phpmycaCert($this->ca);
-	$this->html->setVar('issuer', &$issuer);
+	$this->html->setVar('issuer', $issuer);
 
 	// Have they confirmed?
 	if ($this->html->getRequestVar(WA_QS_CONFIRM) !== 'yes') {
@@ -2324,10 +2325,10 @@ public function getPageCsrServerList() {
 	$this->moduleRequired('csrserver');
 	$this->csrserver->searchReset();
 	// apply user input (search, sort)
-	$this->setUserInput(&$this->csrserver);
+	$this->setUserInput($this->csrserver);
 	// do the query
 	$this->csrserver->doQueryList();
-	$this->html->setVar('list',&$this->csrserver);
+	$this->html->setVar('list',$this->csrserver);
 	die($this->html->loadTemplate('csr.server.list.php'));
 	}
 
@@ -2348,7 +2349,7 @@ public function getPageCsrServerView() {
 		$this->html->errorMsgSet('Failed to locate the specified certificate request: ' . $id);
 		die($this->html->loadTemplate('csr.server.view.php'));
 		}
-	$this->html->setVar('data',&$this->csrserver);
+	$this->html->setVar('data',$this->csrserver);
 	die($this->html->loadTemplate('csr.server.view.php'));
 	}
 
@@ -2386,10 +2387,10 @@ public function getPageServerList() {
 	$this->moduleRequired('server');
 	$this->server->searchReset();
 	// apply user input (search, sort)
-	$this->setUserInput(&$this->server);
+	$this->setUserInput($this->server);
 	// do the query
 	$this->server->doQueryList();
-	$this->html->setVar('list',&$this->server);
+	$this->html->setVar('list',$this->server);
 	die($this->html->loadTemplate('server.list.php'));
 	}
 
@@ -2410,7 +2411,7 @@ function getPageServerPkcs12() {
 		$this->html->errorMsgSet('Failed to locate the specified certificate.');
 		die($this->html->loadTemplate('server.view.php'));
 		}
-	$this->html->setVar('data',&$this->server);
+	$this->html->setVar('data',$this->server);
 	// Have they been given the chance to enter the private key password?
 	$conf    = (isset($_POST[WA_QS_CONFIRM])) ? $_POST[WA_QS_CONFIRM] : false;
 	$keyPass = (isset($_POST['keyPass'])) ? $_POST['keyPass']         : null;
@@ -2478,7 +2479,7 @@ public function getPageServerRevoke() {
 		die($this->getPageServerView());
 		}
 	$cert = new phpmycaCert($this->server);
-	$this->html->setVar('cert', &$cert);
+	$this->html->setVar('cert', $cert);
 
 	// Is it already revoked?
 	if ($cert->isRevoked()) {
@@ -2505,7 +2506,7 @@ public function getPageServerRevoke() {
 		die($this->getPageClientView());
 		}
 	$issuer = new phpmycaCert($this->ca);
-	$this->html->setVar('issuer', &$issuer);
+	$this->html->setVar('issuer', $issuer);
 
 	// Have they confirmed?
 	if ($this->html->getRequestVar(WA_QS_CONFIRM) !== 'yes') {

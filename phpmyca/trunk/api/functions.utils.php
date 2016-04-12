@@ -51,12 +51,12 @@ function getPageCertView() {
 			}
 		unset($der);
 		}
-	$_WA->html->setVar('cert_asn',     &$cert_asn);
-	$_WA->html->setVar('cert_pem',     &$pem);
-	$_WA->html->setVar('cert_subject', &$cert_subject);
-	$_WA->html->setVar('cert_key',     &$cert_key);
-	$_WA->html->setVar('cert_parse',   &$cert_parse);
-	$_WA->html->setVar('cert_host',    &$cert_host);
+	$_WA->html->setVar('cert_asn',     $cert_asn);
+	$_WA->html->setVar('cert_pem',     $pem);
+	$_WA->html->setVar('cert_subject', $cert_subject);
+	$_WA->html->setVar('cert_key',     $cert_key);
+	$_WA->html->setVar('cert_parse',   $cert_parse);
+	$_WA->html->setVar('cert_host',    $cert_host);
 	die($_WA->html->loadTemplate('utils.cert.view.php'));
 	}
 
@@ -86,10 +86,10 @@ function getPageCsrView() {
 			$csr_key = openssl_pkey_get_details($key);
 			}
 		}
-	$_WA->html->setVar('csr_pem',     &$csr_pem);
-	$_WA->html->setVar('csr_subject', &$csr_subject);
-	$_WA->html->setVar('csr_key',     &$csr_key);
-	$_WA->html->setVar('csr_asn',     &$csr_asn);
+	$_WA->html->setVar('csr_pem',     $csr_pem);
+	$_WA->html->setVar('csr_subject', $csr_subject);
+	$_WA->html->setVar('csr_key',     $csr_key);
+	$_WA->html->setVar('csr_asn',     $csr_asn);
 	die($_WA->html->loadTemplate('utils.csr.view.php'));
 	}
 
@@ -108,8 +108,8 @@ function getPageDebugSigner() {
 	$pem_cert = $_WA->html->parseCertificate('cert_file','cert');
 	$pem_key  = $_WA->html->parsePublicKey('key_file','key');
 	// Set the template vars now so input will be saved even if errors happen
-	$_WA->html->setVar('pem_cert',  &$pem_cert);
-	$_WA->html->setVar('pem_key',   &$pem_key);
+	$_WA->html->setVar('pem_cert',  $pem_cert);
+	$_WA->html->setVar('pem_key',   $pem_key);
 	//
 	// Attempt to process the certificate
 	//
@@ -128,7 +128,7 @@ function getPageDebugSigner() {
 		$debug_txt = '<P>Encrypted Signature:' . "\n"
 		. '<PRE>' . print_r($eSig,true) . '</PRE></P>';
 		if (!isset($data['signatureAlgorithm'])) {
-			$_WA->html->setVar('debug_txt', &$debug_txt);
+			$_WA->html->setVar('debug_txt', $debug_txt);
 			$_WA->html->errorMsgSet('Failed to determine signature algorithm.');
 			die($_WA->html->loadTemplate('utils.debug.signer.php'));
 			}
@@ -138,7 +138,7 @@ function getPageDebugSigner() {
 		$pubKey = openssl_pkey_get_public($pem_key);
 		if ($pubKey === false) {
 			$_WA->html->errorMsgSet('Failed to load public key.');
-			$_WA->html->setVar('debug_txt', &$debug_txt);
+			$_WA->html->setVar('debug_txt', $debug_txt);
 			die($_WA->html->loadTemplate('utils.debug.signer.php'));
 			}
 		// attempt to decode using both types of padding
@@ -148,32 +148,32 @@ function getPageDebugSigner() {
 			$debug_txt .= '<P>Public key WAS used to encrypt the signature.</P>';
 			} else {
 			$debug_txt .= '<P>Public key was NOT used to encrypt the signature</P>';
-			$_WA->html->setVar('debug_txt', &$debug_txt);
+			$_WA->html->setVar('debug_txt', $debug_txt);
 			die($_WA->html->loadTemplate('utils.debug.signer.php'));
 			}
 		$asn = $_WA->parse->parseAsn($dSig);
 		if (!is_array($asn)) {
 			$_WA->html->errorMsgSet('Failed to parse ASN data: ' . $asn);
-			$_WA->html->setVar('debug_txt', &$debug_txt);
+			$_WA->html->setVar('debug_txt', $debug_txt);
 			die($_WA->html->loadTemplate('utils.debug.signer.php'));
 			}
 		$debug_txt .= '<P>Parsed ASN Signature<BR />'
 		. '<PRE>' . print_r($asn,true) . '</PRE></P>';
 		if (!isset($asn[1][1][1]) or !is_string($asn[1][1][1])) {
-			$_WA->html->setVar('debug_txt', &$debug_txt);
+			$_WA->html->setVar('debug_txt', $debug_txt);
 			$_WA->html->errorMsgSet('Failed to correctly parse the signature.');
 			die($_WA->html->loadTemplate('utils.debug.signer.php'));
 			}
 		$sighash = bin2hex($asn[1][1][1]);
 		$der = $_WA->parse->pemToDer($pem_cert);
 		if ($der === false) {
-			$_WA->html->setVar('debug_txt', &$debug_txt);
+			$_WA->html->setVar('debug_txt', $debug_txt);
 			$_WA->html->errorMsgSet('Failed to convert cert to DER.');
 			die($_WA->html->loadTemplate('utils.debug.signer.php'));
 			}
 		$origSig = $_WA->parse->stripSignerAsn($der);
 		if ($origSig === false) {
-			$_WA->html->setVar('debug_txt', &$debug_txt);
+			$_WA->html->setVar('debug_txt', $debug_txt);
 			$_WA->html->errorMsgSet('Failed to extract sig from DER.');
 			die($_WA->html->loadTemplate('utils.debug.signer.php'));
 			}
@@ -194,7 +194,7 @@ function getPageDebugSigner() {
 				$certhash = hash('sha1',$origSig);
 			break;
 			default:
-				$_WA->html->setVar('debug_txt', &$debug_txt);
+				$_WA->html->setVar('debug_txt', $debug_txt);
 				$_WA->html->errorMsgSet('Unknown hash algorithm: ' . $algo);
 				die($_WA->html->loadTemplate('utils.debug.signer.php'));
 			break;
@@ -207,7 +207,7 @@ function getPageDebugSigner() {
 			$debug_txt .= '<P>The signature did NOT validate.</P>';
 			}
 		}
-	$_WA->html->setVar('debug_txt', &$debug_txt);
+	$_WA->html->setVar('debug_txt', $debug_txt);
 	die($_WA->html->loadTemplate('utils.debug.signer.php'));
 	}
 
@@ -246,7 +246,7 @@ function getPageIsCertSigner() {
 		die($_WA->html->loadTemplate('utils.cert.signer.php'));
 		}
 	$isSigner = ($rc === true) ? 'yes' : 'no';
-	$_WA->html->setVar('isSigner',&$isSigner);
+	$_WA->html->setVar('isSigner',$isSigner);
 	die($_WA->html->loadTemplate('utils.cert.signer.php'));
 	}
 
@@ -272,9 +272,9 @@ function getPagePkcs12View() {
 		$_WA->html->errorMsgSet('Failed to read PKCS12 certificate store.');
 		die($_WA->html->loadTemplate('utils.pkcs12.upload.php'));
 		}
-	$_WA->html->setVar('cert_pem',    &$certs['cert']);
-	$_WA->html->setVar('cert_key',    &$certs['pkey']);
-	$_WA->html->setVar('certs_extra', &$certs['extracerts']);
+	$_WA->html->setVar('cert_pem',    $certs['cert']);
+	$_WA->html->setVar('cert_key',    $certs['pkey']);
+	$_WA->html->setVar('certs_extra', $certs['extracerts']);
 	die($_WA->html->loadTemplate('utils.pkcs12.view.php'));
 	}
 

@@ -618,8 +618,8 @@ public function parsedCertIsCa(&$cert=null) {
  * @return bool
  */
 public function parsedCertIsClient(&$cert=null) {
-	if ($this->parsedCertIsCa(&$cert) === true) { return false; }
-	if ($this->parsedCertIsSslServer(&$cert) === true) { return false; }
+	if ($this->parsedCertIsCa($cert) === true) { return false; }
+	if ($this->parsedCertIsSslServer($cert) === true) { return false; }
 	// below v3 we can't know...
 	if ($cert['certificate']['version'] < 3) { return true; }
 	// check id-ce-keyUsage for digitalSignature, keyEncipherment, and dataEncipherment
