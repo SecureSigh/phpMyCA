@@ -1192,9 +1192,12 @@ public function getFormSelectCa($selectName=null,$default=null,$onChange=null) {
 	if ($default == 'self') {
 		$ar = array();
 		$ar['Id'] = 'self';
-		$ar['CommonName'] = 'Self Signed';
-		$ar['OrgName'] = 'Self Signed';
-		$ar['OrgUnitName'] = 'Self Signed';
+		//$ar['CommonName'] = 'Self Signed';
+		//$ar['OrgName'] = 'Self Signed';
+		//$ar['OrgUnitName'] = 'Self Signed';
+		$ar['CommonName'] = 'Самоподписываемый';
+		$ar['OrgName'] = 'Самоподписываемый';
+		$ar['OrgUnitName'] = 'Самоподписываемый';
 		$q[] = $ar;
 		}
 	$h = array();

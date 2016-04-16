@@ -13,7 +13,7 @@
  */
 function getPageAdd() {
 	global $_WA;
-	$_WA->html->setPageTitle('Create Client Certificate');
+	$_WA->html->setPageTitle('Создать клиентский сертификат');
 	// If they have not submitted yet, dump them to the form.
 	if ($_WA->html->getRequestVar(WA_QS_CONFIRM) !== 'yes') {
 		die($_WA->html->loadTemplate('client.add.php'));
@@ -24,12 +24,12 @@ function getPageAdd() {
 		die($_WA->html->loadTemplate('client.add.php'));
 		}
 	// Success ;)
-	$_WA->html->setPageTitle('Add Client Certificate Results');
+	$_WA->html->setPageTitle('Результат добавления сертификата');
 	$qs = $_WA->html->getMenuQs(MENU_CERTS_CLIENT);
 	$_WA->html->addMenuLink($qs,'Return','greenoutline');
 	$h   = array();
 	$h[] = $_WA->html->getPageHeader();
-	$h[] = 'Congratulations, the client certificate has been added successfully.';
+	$h[] = 'Сертификат добавлен успешно.';
 	$h[]  = $_WA->html->getPageFooter();
 	die(implode("\n",$h) . "\n");
 	}
@@ -40,7 +40,7 @@ function getPageAdd() {
  */
 function getPageCsrSign() {
 	global $_WA;
-	$_WA->html->setPageTitle('Generate Certificate from CSR');
+	$_WA->html->setPageTitle('Создание сертификата на основе запроса CSR');
 	$conf = (isset($_POST[WA_QS_CONFIRM]))    ? $_POST[WA_QS_CONFIRM]  : false;
 	$csr  = (isset($_POST['csr']))            ? $_POST['csr']          : false;
 	//
@@ -54,7 +54,7 @@ function getPageCsrSign() {
 	//
 	$info = openssl_csr_get_subject($csr,false);
 	if (!is_array($info) or !isset($info['commonName'])) {
-		$_WA->html->errorMsgSet('Could not decode the CSR');
+		$_WA->html->errorMsgSet('Некорректный CSR');
 		die($_WA->html->loadTemplate('get.csr.php'));
 		}
 	//
@@ -73,13 +73,12 @@ function getPageCsrSign() {
 		die($_WA->html->loadTemplate('client.sign.php'));
 		}
 	// Success ;)
-	$_WA->html->setPageTitle('Sign Certificate Results');
+	$_WA->html->setPageTitle('Результат подписи сертификата');
 	$qs = $_WA->html->getMenuQs(MENU_CERTS_CLIENT);
-	$_WA->html->addMenuLink($qs,'Return','greenoutline');
+	$_WA->html->addMenuLink($qs,'Вернуться','greenoutline');
 	$h   = array();
 	$h[] = $_WA->html->getPageHeader();
-	$h[] = 'Congratulations, the certificate has been signed and imported '
-	     . 'successfully.';
+	$h[] = 'Сертификат создан и импортирован успешно';
 	$h[]  = $_WA->html->getPageFooter();
 	die(implode("\n",$h) . "\n");
 	}
@@ -90,7 +89,7 @@ function getPageCsrSign() {
  */
 function getPageImport() {
 	global $_WA;
-	$_WA->html->setPageTitle('Import Client Certificate');
+	$_WA->html->setPageTitle('Импорт клиентского сертификата');
 	$conf = (isset($_POST[WA_QS_CONFIRM])) ? $_POST[WA_QS_CONFIRM] : false;
 	$pem  = $_WA->html->parseCertificate('cert_file','cert');
 	$key  = $_WA->html->parsePrivateKey('key_file','key');
@@ -106,14 +105,14 @@ function getPageImport() {
 		die($_WA->html->loadTemplate('client.import.php'));
 		}
 	// Success ;)
-	$_WA->html->setPageTitle('Certificate Import Results');
+	$_WA->html->setPageTitle('Результат импорта сертификата');
 	$qs = $_WA->html->getActionQs(WA_ACTION_CLIENT_IMPORT);
-	$_WA->html->addMenuLink($qs,'Import Another','greenoutline');
+	$_WA->html->addMenuLink($qs,'Импортировать следующий','greenoutline');
 	$qs = $_WA->html->getMenuQs(MENU_CERTS_CLIENT);
-	$_WA->html->addMenuLink($qs,'Return','greenoutline');
+	$_WA->html->addMenuLink($qs,'Вернуться','greenoutline');
 	$h   = array();
 	$h[] = $_WA->html->getPageHeader();
-	$h[] = 'Congratulations, the certificate has been imported successfully.';
+	$h[] = 'Сертификат успешно импортирован';
 	$h[]  = $_WA->html->getPageFooter();
 	die(implode("\n",$h) . "\n");
 	}

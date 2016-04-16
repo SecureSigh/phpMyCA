@@ -1820,7 +1820,7 @@ public function getPageCaBrowserImport() {
  * @return void
  */
 public function getPageCaList() {
-	$this->html->setPageTitle('List CA Certificates');
+	$this->html->setPageTitle('Список сертификатов УЦ');
 	$this->moduleRequired('ca');
 	$this->ca->searchReset();
 	// apply user input (search, sort)
@@ -2383,7 +2383,7 @@ public function getPageServerBrowserImport() {
  * @return void
  */
 public function getPageServerList() {
-	$this->html->setPageTitle('List Server Certificates');
+	$this->html->setPageTitle('Список серверных сертификатов');
 	$this->moduleRequired('server');
 	$this->server->searchReset();
 	// apply user input (search, sort)
@@ -2568,7 +2568,7 @@ public function getPageServerView() {
  * @return void
  */
 public function getPageWelcome() {
-	$this->html->setPageTitle('phpMyCA Main Menu');
+	$this->html->setPageTitle('phpMyCA Главное меню');
 	die($this->html->loadTemplate('welcome.php'));
 	}
 

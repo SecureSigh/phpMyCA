@@ -13,7 +13,7 @@
  */
 function getPageAdd() {
 	global $_WA;
-	$_WA->html->setPageTitle('Create CA');
+	$_WA->html->setPageTitle('Создание УЦ'); // Create CA
 	// If they have not submitted yet, dump them to the form.
 	if ($_WA->html->getRequestVar(WA_QS_CONFIRM) !== 'yes') {
 		die($_WA->html->loadTemplate('ca.add.php'));
@@ -40,7 +40,7 @@ function getPageAdd() {
  */
 function getPageImport() {
 	global $_WA;
-	$_WA->html->setPageTitle('Import CA Certificate');
+	$_WA->html->setPageTitle('Импорт сертификата УЦ');
 	// If they have not submitted yet, dump them to the form...
 	$pem  = $_WA->html->parseCertificate('cert_file','cert');
 	$key  = $_WA->html->parsePrivateKey('key_file','key');
