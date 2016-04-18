@@ -193,13 +193,13 @@ public function actionCaAdd() {
 	$rc = openssl_x509_export($signedCsr,$certPem);
 	if ($rc === false) {
 		$errors = openssl_error_string();
-		return 'Failed to export the x509 certificate: ' . $errors;
+		return 'Невозможно экспортировать сертификат  x509: ' . $errors;
 		}
 	// Export the private key
 	$rc = openssl_pkey_export($privkey,$privkeyPem,$PassPhrase,$cfgargs);
 	if ($rc === false) {
 		$errors = openssl_error_string();
-		return 'Failed to export the private key: ' . $errors;
+		return 'Невозможно экспортировать приватный ключ: ' . $errors;
 		}
 	// Export the csr
 	$rc = openssl_csr_export($csr,$csrPem);
@@ -210,7 +210,7 @@ public function actionCaAdd() {
 	// Call upon actionCaImport to import it into the database
 	$rc = $this->actionCaImport($certPem,$privkeyPem,$PassPhrase,$csrPem);
 	if (!($rc === true)) {
-		return 'Failed to import the CA cert: ' . $rc;
+		return 'Ошибка импорта сертификата УЦ: ' . $rc;
 		}
 	// Do we need to increment the issuer last serial number?
 	if (is_numeric($caId) and $certSerialNumber > 0) {
@@ -1524,7 +1524,7 @@ public function changeKeyPass($certType=null) {
 		die($this->$diePage());
 		}
 	// Have they entered the old/new passwords?
-	$this->html->setPageTitle('Enter Private Key Pass Phrase');
+	$this->html->setPageTitle('Введите пароль приватного ключа');
 	$this->html->setVar('data',$this->$certType);
 	$keyPass = (isset($_POST['keyPass'])) ? $_POST['keyPass'] : false;
 	$newPass = (isset($_POST['newPass'])) ? $_POST['newPass'] : false;
@@ -1618,7 +1618,7 @@ public function decryptPrivateKey($certType=null) {
 		die($this->$diePage());
 		}
 	// Have they entered the password?
-	$this->html->setPageTitle('Enter Private Key Pass Phrase');
+	$this->html->setPageTitle('Введите пароль приватного ключа');
 	$this->html->setVar('data',$this->$certType);
 
 	$keyPass = (isset($_POST['keyPass'])) ? $_POST['keyPass'] : false;
@@ -1744,7 +1744,7 @@ public function encryptPrivateKey($certType=null) {
 		die($this->$diePage());
 		}
 	// Have they entered the password?
-	$this->html->setPageTitle('Enter Private Key Pass Phrase');
+	$this->html->setPageTitle('Введите пароль приватного ключа');
 	$this->html->setVar('data',$this->$certType);
 
 	$keyPass = (isset($_POST['keyPass'])) ? $_POST['keyPass'] : false;
@@ -2038,10 +2038,10 @@ public function getPageCaRevoke() {
  * @return void
  */
 public function getPageCaView() {
-	$this->html->setPageTitle('View CA Certificate');
+	$this->html->setPageTitle('Просмотр сертификата УЦ');
 	$id = $this->html->crumbGet(WA_QS_ID);
 	if (!is_numeric($id) or $id < 1) {
-		$this->html->errorMsgSet('Must specify valid certificate id.');
+		$this->html->errorMsgSet('Необходимо указать идентификатор.');
 		die($this->html->loadTemplate('ca.view.php'));
 		}
 	$this->moduleRequired('ca,server,client');
@@ -2135,7 +2135,7 @@ public function getPageCaView() {
  * @return void
  */
 public function getPageClientList() {
-	$this->html->setPageTitle('List Client Certificates');
+	$this->html->setPageTitle('Список клиентских сертификатов');
 	$this->moduleRequired('client');
 	$this->client->searchReset();
 	// apply user input (search, sort)
@@ -2291,7 +2291,7 @@ public function getPageClientRevoke() {
  * @return void
  */
 public function getPageClientView() {
-	$this->html->setPageTitle('View Client Certificate');
+	$this->html->setPageTitle('Просмотр клиентского сертификата');
 	$id = $this->html->crumbGet(WA_QS_ID);
 	if (!is_numeric($id) or $id < 1) {
 		$this->html->errorMsgSet('Must specify valid certificate id.');
@@ -2321,7 +2321,7 @@ public function getPageClientView() {
  * @return void
  */
 public function getPageCsrServerList() {
-	$this->html->setPageTitle('List Server Certificate Requests');
+	$this->html->setPageTitle('Список серверных запросов на сертификат');
 	$this->moduleRequired('csrserver');
 	$this->csrserver->searchReset();
 	// apply user input (search, sort)
@@ -2337,16 +2337,16 @@ public function getPageCsrServerList() {
  * @return void
  */
 public function getPageCsrServerView() {
-	$this->html->setPageTitle('View Server Certificate Request');
+	$this->html->setPageTitle('Просмотр запроса сертификата к серверу (CSR)');
 	$id = $this->html->crumbGet(WA_QS_ID);
 	if (!is_numeric($id) or $id < 1) {
-		$this->html->errorMsgSet('Must specify valid certificate request id.');
+		$this->html->errorMsgSet('Выберите корректный запрос на сертификат');
 		die($this->html->loadTemplate('csr.server.view.php'));
 		}
 	$this->moduleRequired('csrserver');
 	$this->csrserver->resetProperties();
 	if ($this->csrserver->populateFromDb($id) === false) {
-		$this->html->errorMsgSet('Failed to locate the specified certificate request: ' . $id);
+		$this->html->errorMsgSet('Не найден указанный запрос на сертификат: ' . $id);
 		die($this->html->loadTemplate('csr.server.view.php'));
 		}
 	$this->html->setVar('data',$this->csrserver);
@@ -2358,7 +2358,7 @@ public function getPageCsrServerView() {
  * @return void
  */
 public function getPageServerBrowserImport() {
-	$this->html->setPageTitle('Server Certificate Import');
+	$this->html->setPageTitle('Импорт серверного сертификата');
 	$id = $this->html->crumbGet(WA_QS_ID);
 	if (!is_numeric($id) or $id < 1) {
 		$this->html->errorMsgSet('Must specify valid certificate id.');
@@ -2466,16 +2466,16 @@ function getPageServerPkcs12() {
  * @return void
  */
 public function getPageServerRevoke() {
-	$this->html->setPageTitle('Revoke Server Certificate');
+	$this->html->setPageTitle('Отозвать серверный сертификат');
 	$id = $this->html->crumbGet(WA_QS_ID);
 	if (!is_numeric($id) or $id < 1) {
-		$this->html->errorMsgSet('Must specify valid certificate id.');
+		$this->html->errorMsgSet('Укажите корректный сертификат');
 		die($this->getPageServerView());
 		}
 	$this->moduleRequired('ca,server');
 	$this->server->resetProperties();
 	if ($this->server->populateFromDb($id) === false) {
-		$this->html->errorMsgSet('Failed to locate the specified certificate.');
+		$this->html->errorMsgSet('Не найден указанный сертификат');
 		die($this->getPageServerView());
 		}
 	$cert = new phpmycaCert($this->server);
@@ -2483,18 +2483,18 @@ public function getPageServerRevoke() {
 
 	// Is it already revoked?
 	if ($cert->isRevoked()) {
-		$this->html->errorMsgSet('The certificate is already revoked.');
+		$this->html->errorMsgSet('Сертификат уже отозван.');
 		die($this->getPageServerView());
 		}
 	// Is it already expired?
 	if ($cert->isExpired()) {
-		$this->html->errorMsgSet('Certificate is expired, will not revoke.');
+		$this->html->errorMsgSet('Срок сертификата истек, отозвать невозможно.');
 		die($this->getPageServerView());
 		}
 	// Can it be revoked?
 	if (!$cert->isRevokable()) {
-		$m = 'Certificate cannot be revoked.  Either the private key is missing'
-		. ' or it has already been revoked.';
+		$m = 'Сертификат отозвать невозможно.  Вероятно отсутствует приватный ключ'
+		. ' или он был отозван ранее.';
 		$this->html->errorMsgSet($m);
 		die($this->getPageServerView());
 		}
@@ -2502,7 +2502,7 @@ public function getPageServerRevoke() {
 	// Look up the issuer
 	$this->ca->resetProperties();
 	if ($this->ca->populateFromDb($cert->ParentId) === false) {
-		$this->html->errorMsgSet('Failed to locate issuer certificate.');
+		$this->html->errorMsgSet('Не найде издатель сертификата.');
 		die($this->getPageClientView());
 		}
 	$issuer = new phpmycaCert($this->ca);
@@ -2515,8 +2515,8 @@ public function getPageServerRevoke() {
 
 	// If encrypted, did the user enter the issuer private key passphrase?
 	if ($issuer->isEncrypted()) {
-		$m = 'Certificate cannot be revoked, issuer pass phrase not specified '
-		   . 'or invalid.';
+		$m = 'Невозможно отозвать сертификат. Не указан или неверный пароль сертификата издателя.'
+		   . '';
 		$pass = (isset($_POST['caPassPhrase']))
 		? stripslashes(trim($_POST['caPassPhrase'])) : false;
 		$rc = $issuer->validatePassphrase($pass);
@@ -2540,22 +2540,22 @@ public function getPageServerRevoke() {
  * @return void
  */
 public function getPageServerView() {
-	$this->html->setPageTitle('View Server Certificate');
+	$this->html->setPageTitle('Просмотр серверного сертификата');
 	$id = $this->html->crumbGet(WA_QS_ID);
 	if (!is_numeric($id) or $id < 1) {
-		$this->html->errorMsgSet('Must specify valid certificate id.');
+		$this->html->errorMsgSet('Должен быть указан корректный сертификат');
 		die($this->html->loadTemplate('server.view.php'));
 		}
 	$this->moduleRequired('ca,server');
 	$this->server->resetProperties();
 	if ($this->server->populateFromDb($id) === false) {
-		$this->html->errorMsgSet('Failed to locate the specified certificate.');
+		$this->html->errorMsgSet('Не найден указанный сертификат');
 		die($this->html->loadTemplate('server.view.php'));
 		}
 	$this->ca->resetProperties();
 	$pid = $this->server->getProperty('ParentId');
 	if ($this->ca->populateFromDb($pid) === false) {
-		$this->html->errorMsgSet('Failed to locate issuer information.');
+		$this->html->errorMsgSet('Не найден издатель');
 		die($this->html->loadTemplate('server.view.php'));
 		}
 	$this->html->setVar('cert',   new phpmycaCert($this->server));
@@ -2930,17 +2930,17 @@ public function uploadCertificateRequest($certType=null) {
 	$this->moduleRequired($certType);
 	$id = $this->html->crumbGet(WA_QS_ID);
 	if (!is_numeric($id) or $id < 1) {
-		$this->html->errorMsgSet('Must specify valid certificate id.');
+		$this->html->errorMsgSet('Необходимо указать правильный сертификат');
 		die($this->$diePage());
 		}
 	$this->$certType->resetProperties();
 	if ($this->$certType->populateFromDb($id) === false) {
-		$this->html->errorMsgSet('Failed to locate the specified certificate.');
+		$this->html->errorMsgSet('Указанный сертификат не найден');
 		die($this->$diePage());
 		}
 	$csr = $this->$certType->getProperty('CSR');
 	if (!is_string($csr) or strlen($csr) < 1) {
-		$this->html->errorMsgSet('CSR could not be located.');
+		$this->html->errorMsgSet('CSR не найден.');
 		die($this->$diePage());
 		}
 	header('Pragma: private');

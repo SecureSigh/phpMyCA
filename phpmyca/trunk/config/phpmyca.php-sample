@@ -11,7 +11,7 @@
 // Filesystem locations
 define('WEBAPP_DIR', '/usr/share/webapps/phpmyca');
 define('WEBAPP_API', WEBAPP_DIR . '/api');
-define('WEBAPP_TMP', WEBAPP_DIR . '/templates.en');
+define('WEBAPP_TMP', WEBAPP_DIR . '/templates.ru');
 
 // Database Settings
 define('WEBAPP_DB_HOST', 'localhost');

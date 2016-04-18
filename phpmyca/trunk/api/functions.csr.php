@@ -12,7 +12,7 @@
  */
 function getPageCsrServerAdd() {
 	global $_WA;
-	$_WA->html->setPageTitle('Create Server CSR');
+	$_WA->html->setPageTitle('Создать серверный запрос (CSR)');
 	// Have they selected an existing server or new server?
 	$serverId = $_WA->html->getRequestVar('serverId');
 	if (!(is_numeric($serverId) or $serverId == 'New')) {
@@ -49,12 +49,13 @@ function getPageCsrServerAdd() {
 		die($_WA->html->loadTemplate('csr.server.add.php'));
 		}
 	// Success ;)
-	$_WA->html->setPageTitle('Generate Server Certificate Results');
+//	$_WA->html->setPageTitle('Generate Server Certificate Results');
+	$_WA->html->setPageTitle('Результат создания запроса');
 	$qs = $_WA->html->getMenuQs(MENU_CERT_REQUESTS);
-	$_WA->html->addMenuLink($qs,'Return','greenoutline');
+	$_WA->html->addMenuLink($qs,'Вернуться','greenoutline');
 	$h   = array();
 	$h[] = $_WA->html->getPageHeader();
-	$h[] = 'Congratulations, the server CSR has been added successfully.';
+	$h[] = 'Серверный запрос CSR создан.';
 	$h[]  = $_WA->html->getPageFooter();
 	die(implode("\n",$h) . "\n");
 	}

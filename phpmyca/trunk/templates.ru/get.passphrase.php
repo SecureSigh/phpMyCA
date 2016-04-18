@@ -17,20 +17,20 @@ if (!is_a($data,'phpmycadbo')) {
 $qs_back    = $this->getActionQs($data->actionQsView);
 
 // footer links
-$this->addMenuLink($qs_back,'Back','greenoutline');
-$this->addMenuLink('javascript:clearForm(document.getpass);','Clear Form','greenoutline');
-$this->addMenuLink('javascript:document.getpass.submit();','Continue','greenoutline');
+$this->addMenuLink($qs_back,'Назад','greenoutline');
+$this->addMenuLink('javascript:clearForm(document.getpass);','Очистить поля','greenoutline');
+$this->addMenuLink('javascript:document.getpass.submit();','Продолжить','greenoutline');
 ?>
 <?= $this->getPageHeader(); ?>
 <?= $this->getFormHeader('getpass'); ?>
 <?= $this->getFormBreadCrumb(); ?>
 <P>
-Enter the private key pass phrase in the form field below.
+Введите пароль приватного ключа в соответствующее поле.
 </P>
 <TABLE ALIGN="center">
 <? $val = (isset($_POST['keyPass'])) ? $_POST['keyPass'] : ''; ?>
 	<TR>
-		<TH>Private Key Pass Phrase</TH>
+		<TH>Пароль приватного ключа</TH>
 		<TD>
 			<INPUT TYPE="password" NAME="keyPass" VALUE="<?= $val; ?>" SIZE="40" MAXLENGTH="64">
 		</TD>

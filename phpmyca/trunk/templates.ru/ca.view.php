@@ -112,7 +112,7 @@ $this->addMenuLink($qs_back,'Назад','greenoutline');
 	</TR>
 <? } ?>
 	<TR>
-		<TH COLSPAN="2">Contact Information</TH>
+		<TH COLSPAN="2">Контактная информация</TH>
 	</TR>
 <? if ($cert->CommonName) { ?>
 	<TR>

@@ -143,7 +143,7 @@ $this->addMenuLink($qs_back,'Назад','greenoutline');
 	</TR>
 <? } ?>
 	<TR>
-		<TH COLSPAN="2">Fingerprints</TH>
+		<TH COLSPAN="2">Отпечатки/Контрольные суммы</TH>
 	</TR>
 	<TR>
 		<TH>MD5</TH>

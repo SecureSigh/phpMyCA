@@ -27,10 +27,10 @@ $class     = '';
 
 // footer links
 $l = array();
-$this->addMenuLink($qs_imp,'Import Client Certificate','greenoutline');
-$this->addMenuLink($qs_add,'Create Client Certificate','greenoutline');
+$this->addMenuLink($qs_imp,'Импорт клиентского сертификата','greenoutline');
+$this->addMenuLink($qs_add,'Создание клиентского сертификата','greenoutline');
 if ($list->hitsTotal > 0) {
-	$this->addMenuLink($qs_export,'Download All Certs','greenoutline');
+	$this->addMenuLink($qs_export,'Скачать все сертификаты','greenoutline');
 	}
 $this->addMenuLink('./','Главное меню','greenoutline');
 ?>

@@ -17,9 +17,9 @@ if (!is_a($data,'phpmycadbo')) {
 $qs_back    = $this->getActionQs($data->actionQsView);
 
 // footer links
-$this->addMenuLink($qs_back,'Back','greenoutline');
-$this->addMenuLink('javascript:clearForm(document.getpass);','Clear Form','greenoutline');
-$this->addMenuLink('javascript:document.getpass.submit();','Continue','greenoutline');
+$this->addMenuLink($qs_back,'Назад','greenoutline');
+$this->addMenuLink('javascript:clearForm(document.getpass);','Очистить поля','greenoutline');
+$this->addMenuLink('javascript:document.getpass.submit();','Продолжить','greenoutline');
 ?>
 <?= $this->getPageHeader(); ?>
 <?= $this->getFormHeader('getpass'); ?>
@@ -30,14 +30,14 @@ Enter the old and new private key pass phrases in the form fields below.
 <TABLE ALIGN="center">
 <? $val = (isset($_POST['keyPass'])) ? $_POST['keyPass'] : ''; ?>
 	<TR>
-		<TH>Current Private Key Pass Phrase</TH>
+		<TH>Текущий пароль приватного ключа</TH>
 		<TD>
 			<INPUT TYPE="password" NAME="keyPass" VALUE="<?= $val; ?>" SIZE="40" MAXLENGTH="64">
 		</TD>
 	</TR>
 <? $val = (isset($_POST['newPass'])) ? $_POST['newPass'] : ''; ?>
 	<TR>
-		<TH>New Private Key Pass Phrase</TH>
+		<TH>Новый пароль приватного ключа</TH>
 		<TD>
 			<INPUT TYPE="password" NAME="newPass" VALUE="<?= $val; ?>" SIZE="40" MAXLENGTH="64">
 		</TD>
