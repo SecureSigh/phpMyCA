@@ -14,10 +14,10 @@ $this->addMenuLink('./','Главное меню','greenoutline');
 <TABLE ALIGN="center">
 	<TR>
 		<TH>
-			<A HREF="<?= $this->getActionQs(WA_ACTION_CSR_SERVER_LIST); ?>">List Server Requests</A>
+			<A HREF="<?= $this->getActionQs(WA_ACTION_CSR_SERVER_LIST); ?>">Список серверных запросов</A>
 		</TH>
 		<TD>
-			List existing server certificate signing requests.
+			Список запросов на получение серверных сертификатов.
 		</TD>
 	</TR>
 </TABLE>

@@ -9,7 +9,7 @@
 
 $cert =& $this->getVar('cert');
 if (!($cert instanceof phpmycaCert)) {
-	$m = 'Required data is missing, cannot continue.';
+	$m = 'Отсутствуют необходимые данные.';
 	die($this->getPageError($m));
 	}
 $caCerts     =& $this->getVar('caCerts');
@@ -26,8 +26,8 @@ $hasSubjects    = ($hasCaCerts or $hasClientCerts or $hasServerCerts);
 $class = '';
 
 // footer links
-$this->addMenuLink($qs_back,'Cancel','redoutline');
-$this->addMenuLink('javascript:document.revokecert.submit();','Revoke','greenoutline');
+$this->addMenuLink($qs_back,'Отмена','redoutline');
+$this->addMenuLink('javascript:document.revokecert.submit();','Отозвать','greenoutline');
 ?>
 <?= $this->getPageHeader(false,true); ?>
 <?= $this->getFormHeader('revokecert'); ?>
@@ -37,7 +37,7 @@ $this->addMenuLink('javascript:document.revokecert.submit();','Revoke','greenout
 <TABLE ALIGN="center" WIDTH="100%">
 <? $val = (isset($_POST['caPassPhrase'])) ? $_POST['caPassPhrase'] : ''; ?>
 	<TR>
-		<TH>Issuer Passphrase</TH>
+		<TH>Пароль издателя</TH>
 		<TD>
 			<INPUT TYPE="password" NAME="caPassPhrase" VALUE="<?= $val; ?>" SIZE="40" MAXLENGTH="64">
 		</TD>
@@ -45,26 +45,24 @@ $this->addMenuLink('javascript:document.revokecert.submit();','Revoke','greenout
 </TABLE>
 <? } ?>
 <P>
-Are you absolutely certain you want to revoke the certificate for <?= $cert->CommonName; ?>?
-This process is not reversible.
+Вы действительно уверены, что хотите отозвать сертификат для <?= $cert->CommonName; ?>?
+Эта операция необратима!
 </P>
 <? if ($hasSubjects) { ?>
 <P>
-The following certificates have been signed by this CA or its intermediate
-certificates.  As a result the certificates listed below will no longer be
-considered trustworthy by properly configured clients.
+Следующие сертификаты подписаны этим УЦ или его промежуточными сертификатом. В результате клиенты с установленными сертификатами из списка  потеряют доверительные отношения. 
 </P>
 <? } ?>
 
 <? if ($hasCaCerts) { ?>
 <TABLE ALIGN="center" WIDTH="100%">
 	<TR>
-		<TH COLSPAN="3">CA Certificates Signed by this CA or Intermediates</TH>
+		<TH COLSPAN="3">Сертификаты УЦ, подписанные данным УЦ или его промежуточными сертификатами</TH>
 	</TR>
 	<TR>
-		<TH>Name</TH>
-		<TH>Org</TH>
-		<TH>Org Unit</TH>
+		<TH>Имя</TH>
+		<TH>Организация</TH>
+		<TH>Отдел</TH>
 	</TR>
 <? foreach($caCerts as $c) {
 	$class = ($class == 'on') ? 'off' : 'on'; ?>
@@ -86,12 +84,12 @@ considered trustworthy by properly configured clients.
 <? if ($hasServerCerts) { ?>
 <TABLE ALIGN="center" WIDTH="100%">
 	<TR>
-		<TH COLSPAN="3">Server Certificates Signed by this CA or Intermediates</TH>
+		<TH COLSPAN="3">Серверные сертификаты, подписанные данным УЦ или его промежуточными сертификатами</TH>
 	</TR>
 	<TR>
-		<TH>Name</TH>
-		<TH>Org</TH>
-		<TH>Org Unit</TH>
+		<TH>Имя</TH>
+		<TH>Организация</TH>
+		<TH>Отдел</TH>
 	</TR>
 <? foreach($serverCerts as &$c) {
 	$class = ($class == 'on') ? 'off' : 'on'; ?>
@@ -113,12 +111,12 @@ considered trustworthy by properly configured clients.
 <? if ($hasClientCerts) { ?>
 <TABLE ALIGN="center" WIDTH="100%">
 	<TR>
-		<TH COLSPAN="3">Client Certificates Signed by this CA or Intermediates</TH>
+		<TH COLSPAN="3">Клиентские сертификаты, подписанные этим УЦ или его промежуточными сертификатами</TH>
 	</TR>
 	<TR>
-		<TH>Name</TH>
-		<TH>Org</TH>
-		<TH>Org Unit</TH>
+		<TH>Имя</TH>
+		<TH>Организация</TH>
+		<TH>Отдел</TH>
 	</TR>
 <? foreach($clientCerts as &$c) {
 	$class = ($class == 'on') ? 'off' : 'on'; ?>

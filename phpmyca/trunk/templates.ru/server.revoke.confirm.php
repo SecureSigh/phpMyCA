@@ -9,20 +9,20 @@
 
 $cert =& $this->getVar('cert');
 if (!($cert instanceof phpmycaCert)) {
-	$m = 'Required data is missing, cannot continue.';
+	$m = 'Требуемые данные отсутствуют.';
 	die($this->getPageError($m));
 	}
 $issuer =& $this->getVar('issuer');
 if (!($cert instanceof phpmycaCert)) {
-	$m = 'Issuer data is missing, cannot continue.';
+	$m = 'Данные издателя отсутствуют.';
 	die($this->getPageError($m));
 	}
 
 $qs_back   = $this->getActionQs(WA_ACTION_SERVER_VIEW);
 
 // footer links
-$this->addMenuLink($qs_back,'Cancel','redoutline');
-$this->addMenuLink('javascript:document.revokecert.submit();','Revoke','greenoutline');
+$this->addMenuLink($qs_back,'Отмена','redoutline');
+$this->addMenuLink('javascript:document.revokecert.submit();','Отозвать','greenoutline');
 ?>
 <?= $this->getPageHeader(false,true); ?>
 <?= $this->getFormHeader('revokecert'); ?>
@@ -32,7 +32,7 @@ $this->addMenuLink('javascript:document.revokecert.submit();','Revoke','greenout
 <TABLE ALIGN="center" WIDTH="100%">
 <? $val = (isset($_POST['caPassPhrase'])) ? $_POST['caPassPhrase'] : ''; ?>
 	<TR>
-		<TH>Issuer Passphrase</TH>
+		<TH>Пароль издателя</TH>
 		<TD>
 			<INPUT TYPE="password" NAME="caPassPhrase" VALUE="<?= $val; ?>" SIZE="40" MAXLENGTH="64">
 		</TD>
@@ -40,8 +40,8 @@ $this->addMenuLink('javascript:document.revokecert.submit();','Revoke','greenout
 </TABLE>
 <? } ?>
 <P>
-Are you absolutely certain you want to revoke the certificate for <?= $cert->CommonName; ?>?
-This process is not reversible.
+Вы действительно уверены, что хотите отозвать сертификат для <?= $cert->CommonName; ?>?
+Операция необратима!
 </P>
 <?= $this->getFormFooter(); ?>
 <?= $this->getPageFooter(); ?>

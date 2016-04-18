@@ -10,9 +10,9 @@
 $qs_back = $this->getMenuQs(MENU_CERT_REQUESTS);
 
 // footer links
-$this->addMenuLink($qs_back,'Cancel','redoutline');
-$this->addMenuLink('javascript:clearForm(document.addcert);','Clear Form','greenoutline');
-$this->addMenuLink('javascript:document.addcert.submit();','Generate Server CSR','greenoutline');
+$this->addMenuLink($qs_back,'Отмена','redoutline');
+$this->addMenuLink('javascript:clearForm(document.addcert);','Очистить поля','greenoutline');
+$this->addMenuLink('javascript:document.addcert.submit();','Создать серверный запрос (CSR)','greenoutline');
 ?>
 <?= $this->getPageHeader(false,true); ?>
 <?= $this->getFormHeader('addcert'); ?>
@@ -22,10 +22,9 @@ $this->addMenuLink('javascript:document.addcert.submit();','Generate Server CSR'
 <INPUT TYPE="hidden" NAME="serverId" value="<?= $_POST['serverId']; ?>">
 <? } ?>
 <P>
-Please provide the basic information needed to generate the server certifcate
-signing request by filling in the form fields below.  Corrections or changes
-cannot be made later without having to generate a new certificate signing
-request.
+Внесите необходимые данные для создания запроса (CSR) к серверу на сертификат.
+Будьте внимательны, исправить приведенную информацию будет невозможно. 
+В этом случае придется создавать новый запрос с корректными данными.
 </P>
 <TABLE>
 	<COLGROUP><COL WIDTH="180px"></COLGROUP>
@@ -36,87 +35,87 @@ request.
 			<INPUT TYPE="text" NAME="CommonName" VALUE="<?= $val; ?>" SIZE="40" MAXLENGTH="64">
 		</TD>
 	    <TD>
-			(commonName) - fully qualified host and domain name
+			(commonName) - полное имя сервера включая имя хоста и домен.
 	    </TD>
 	</TR>
 <? $val = (isset($_POST['OrgName'])) ? $_POST['OrgName'] : ''; ?>
 	<TR>
-		<TH>Organization Name</TH>
+		<TH>Название организации</TH>
 		<TD>
 			<INPUT TYPE="text" NAME="OrgName" VALUE="<?= $val; ?>" SIZE="40" MAXLENGTH="64">
 		</TD>
 		<TD>
-			(organizationName)
+			(Название организации)
 		</TD>
 	</TR>
 <? $val = (isset($_POST['OrgUnitName'])) ? $_POST['OrgUnitName'] : ''; ?>
 	<TR>
-		<TH>Department Name</TH>
+		<TH>Название отдела</TH>
 		<TD>
 			<INPUT TYPE="text" NAME="OrgUnitName" VALUE="<?= $val; ?>" SIZE="40" MAXLENGTH="64">
 		</TD>
 		<TD>
-			(organizationalUnitName)
+			(Название отдела или департамента организации)
 		</TD>
 	</TR>
 <? $val = (isset($_POST['EmailAddress'])) ? $_POST['EmailAddress'] : ''; ?>
 	<TR>
-		<TH>Contact Email Address</TH>
+		<TH>Email для контакта</TH>
 		<TD>
 			<INPUT TYPE="text" NAME="EmailAddress" VALUE="<?= $val; ?>" SIZE="40" MAXLENGTH="64">
 		</TD>
 		<TD>
-			(emailAddress)
+			(адрес электронной почты для контакта)
 		</TD>
 	</TR>
 <? $val = (isset($_POST['LocalityName'])) ? $_POST['LocalityName'] : ''; ?>
 	<TR>
-		<TH>City</TH>
+		<TH>Населенный пункт</TH>
 		<TD>
 			<INPUT TYPE="text" NAME="LocalityName" VALUE="<?= $val; ?>" SIZE="40" MAXLENGTH="64">
 		</TD>
 		<TD>
-			(localityName)
+			(укажите название населенного пункта)
 		</TD>
 	</TR>
 <? $val = (isset($_POST['StateName'])) ? $_POST['StateName'] : ''; ?>
 	<TR>
-		<TH>State/Province</TH>
+		<TH>Область/Край</TH>
 		<TD>
 			<INPUT TYPE="text" NAME="StateName" VALUE="<?= $val; ?>" SIZE="40" MAXLENGTH="64">
 		</TD>
 		<TD>
-			(stateOrProvinceName)
+			(укажите область или край)
 		</TD>
 	</TR>
 <? $val = (isset($_POST['CountryName'])) ? $_POST['CountryName'] : ''; ?>
 	<TR>
-		<TH>Country</TH>
+		<TH>Страна</TH>
 		<TD>
 			<INPUT TYPE="text" NAME="CountryName" VALUE="<?= $val; ?>" SIZE="2">
 		</TD>
 		<TD>
-			(countryName)
+			(Укажите двухбуквенное обозначение страны (RU для России))
 		</TD>
 	</TR>
-<? $val = (isset($_POST['PassPhrase'])) ? $_POST['PassPhrase'] : ''; ?>
+<? $val = (isset($_POST['Пароль'])) ? $_POST['PassPhrase'] : ''; ?>
 	<TR>
-		<TH>Key Passphrase</TH>
+		<TH>Пароль</TH>
 		<TD>
 			<INPUT TYPE="password" NAME="PassPhrase" VALUE="<?= $val; ?>" SIZE="40" MAXLENGTH="64">
 		</TD>
 		<TD>
-			Optional passphrase for private key.
+			Пароль для приватного ключа, опционально.
 		</TD>
 	</TR>
 <? $val = (isset($_POST['ExportPassPhrase'])) ? $_POST['ExportPassPhrase'] : ''; ?>
 	<TR>
-		<TH>Export Passphrase</TH>
+		<TH>Пароль для экспорта</TH>
 		<TD>
 			<INPUT TYPE="password" NAME="ExportPassPhrase" VALUE="<?= $val; ?>" SIZE="40" MAXLENGTH="64">
 		</TD>
 		<TD>
-			Optional export passphrase.
+			Пароль для экспорта.
 		</TD>
 	</TR>
 </TABLE>

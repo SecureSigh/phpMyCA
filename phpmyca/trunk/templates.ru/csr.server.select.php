@@ -10,23 +10,22 @@
 $qs_back = $this->getMenuQs(MENU_CERT_REQUESTS);
 
 // footer links
-$this->addMenuLink($qs_back,'Cancel','redoutline');
-$this->addMenuLink('javascript:clearForm(document.addcert);','Clear Form','greenoutline');
-$this->addMenuLink('javascript:document.addcert.submit();','Continue','greenoutline');
+$this->addMenuLink($qs_back,'Отмена','redoutline');
+$this->addMenuLink('javascript:clearForm(document.addcert);','Очистить поля','greenoutline');
+$this->addMenuLink('javascript:document.addcert.submit();','Продолжить','greenoutline');
 ?>
 <?= $this->getPageHeader(false,true); ?>
 <?= $this->getFormHeader('addcert'); ?>
 <?= $this->getFormBreadCrumb(); ?>
 <P>
-The information for the new certificate request can be populated from an
-existing server certificate or by manually entering it.  Select an existing
-server certificate or select "New" to manually enter the required information.
+Поля для запроса могут быть взяты из выбранного серверного сертификата или заполнены вручну.
+Выберите из списка серверный сертификат или  "Туц" и заполните поля вручную.
 </P>
 <TABLE>
 	<COLGROUP><COL WIDTH="180px"></COLGROUP>
 <? $val = (isset($_POST['serverId'])) ? $_POST['serverId'] : false; ?>
 	<TR>
-		<TH>Select Server</TH>
+		<TH>Выберите сервер</TH>
 		<TD COLSPAN="2">
 			<?= $this->getFormSelectServerId('serverId',$val); ?>
 		</TD>

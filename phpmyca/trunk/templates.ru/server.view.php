@@ -9,13 +9,13 @@
 
 $cert =& $this->getVar('cert');
 if (!($cert instanceof phpmycaCert)) {
-	$m = 'Server cert is missing, cannot continue.';
+	$m = 'Серверный сертификат отсутствует.';
 	die($this->getPageError($m));
 	}
 
 $issuer =& $this->getVar('issuer');
 if (!($issuer instanceof phpmycaCert)) {
-	$m = 'Issuer cert is missing, cannot continue.';
+	$m = 'Издатель сертификата отсутствует.';
 	die($this->getPageError($m));
 	}
 
@@ -49,96 +49,96 @@ $isSelfSigned = ($cert->FingerprintMD5 == $issuer->FingerprintMD5);
 // footer links
 if (!$expired and !$revoked) {
 	if ($cert->isRevokable()) {
-		$this->addMenuLink($qs_revoke,'Revoke','redoutline');
+		$this->addMenuLink($qs_revoke,'Отозвать','redoutline');
 		}
-	$this->addMenuLink($qs_download,'Download Cert','greenoutline');
+	$this->addMenuLink($qs_download,'Загрузить сертификат','greenoutline');
 	if ($cert->hasPrivateKey()) {
 		if ($cert->isEncrypted()) {
 			$qs = $this->getActionQs(WA_ACTION_CHANGE_PASS);
-			$this->addMenuLink($qs,'Change Private Key Password','greenoutline');
+			$this->addMenuLink($qs,'Изменить пароль прив. ключа','greenoutline');
 			$qs = $this->getActionQs(WA_ACTION_DECRYPT);
-			$this->addMenuLink($qs,'Decrypt Private Key','greenoutline');
+			$this->addMenuLink($qs,'Расшифровать прив. ключ','greenoutline');
 			} else {
 			$qs = $this->getActionQs(WA_ACTION_ENCRYPT);
-			$this->addMenuLink($qs,'Encrypt Private Key','greenoutline');
+			$this->addMenuLink($qs,'Зашифровать прив. ключ','greenoutline');
 			}
 		}
-	$this->addMenuLink($qs_bundle,'Get CA Chain','greenoutline');
-	$this->addMenuLink($qs_pkcs12,'Get PKCS12','greenoutline');
+	$this->addMenuLink($qs_bundle,'Скачать сертификат УЦ в формате .pem','greenoutline');
+	$this->addMenuLink($qs_pkcs12,'Скачать  PKCS12','greenoutline');
 	}
-$this->addMenuLink($qs_back,'Back','greenoutline');
+$this->addMenuLink($qs_back,'Назад','greenoutline');
 ?>
 <?= $this->getPageHeader(); ?>
 <TABLE ALIGN="center">
 	<TR>
-		<TH>Certificate ID</TH>
+		<TH>Номер сертификата</TH>
 		<TD>
 			<?= $cert->Id . "\n"; ?>
 		</TD>
 	</TR>
 	<TR>
-		<TH>Description</TH>
+		<TH>Описание</TH>
 		<TD>
 			<?= $cert->Description . "\n"; ?>
 		</TD>
 	</TR>
 	<TR>
-		<TH>Server (commonName)</TH>
+		<TH>Сервер (commonName)</TH>
 		<TD>
 			<?= $cert->CommonName . "\n"; ?>
 		</TD>
 	</TR>
 <? if ($revoked) { ?>
 	<TR>
-		<TH>Date Revoked</TH>
+		<TH>Дата отзыва</TH>
 		<TD>
 			<?= $cert->RevokeDate; ?>
 		</TD>
 	</TR>
 <? } else { ?>
 	<TR>
-		<TH>Date Valid</TH>
+		<TH>Срок действия</TH>
 		<TD<?= $expireClass; ?>>
-			<?= $cert->ValidFrom . ' to ' . $cert->ValidTo . "\n"; ?>
+			<?= $cert->ValidFrom . ' до ' . $cert->ValidTo . "\n"; ?>
 		</TD>
 	</TR>
 <? } ?>
 	<TR>
-		<TH COLSPAN="2">Contact Information</TH>
+		<TH COLSPAN="2">Контактные данные</TH>
 	</TR>
 <? if ($cert->EmailAddress) { ?>
 	<TR>
-		<TH>Email Address</TH>
+		<TH>Email</TH>
 		<TD><?= $cert->EmailAddress; ?></TD>
 	</TR>
 <? } ?>
 <? if ($cert->OrgName) { ?>
 	<TR>
-		<TH>Organization</TH>
+		<TH>Организация</TH>
 		<TD><?= $cert->OrgName; ?></TD>
 	</TR>
 <? } ?>
 <? if ($cert->OrgUnitName) { ?>
 	<TR>
-		<TH>Organizational Unit</TH>
+		<TH>Отдел</TH>
 		<TD><?= nl2br($cert->OrgUnitName); ?></TD>
 	</TR>
 <? } ?>
 <? if ($cert->LocalityName) { ?>
 	<TR>
-		<TH>Location</TH>
+		<TH>Местоположение</TH>
 		<TD><?= nl2br($cert->LocalityName); ?></TD>
 	</TR>
 <? } ?>
 <? if ($cert->StateName) { ?>
 	<TR>
-		<TH>State/Province</TH>
+		<TH>Область/Край</TH>
 		<TD><?= $cert->StateName; ?></TD>
 	</TR>
 <? } ?>
 <? if ($cert->CountryName) { ?>
 	<TR>
-		<TH>Country</TH>
+		<TH>Страна</TH>
 		<TD><?= $cert->CountryName; ?></TD>
 	</TR>
 <? } ?>
@@ -158,20 +158,20 @@ $this->addMenuLink($qs_back,'Back','greenoutline');
 		</TD>
 	</TR>
 	<TR>
-		<TH>Serial Number</TH>
+		<TH>Серийный номер</TH>
 		<TD>
 			<?= $cert->SerialNumber . "\n"; ?>
 		</TD>
 	</TR>
 	<TR>
-		<TH>Created</TH>
+		<TH>Дата создания</TH>
 		<TD>
 			<?= $cert->CreateDate . "\n"; ?>
 		</TD>
 	</TR>
 <? if ($isSelfSigned) { ?>
 	<TR>
-		<TH>Issuer</TH>
+		<TH>Издатель</TH>
 		<TD>
 			Self Signed
 		</TD>
@@ -182,7 +182,7 @@ $this->addMenuLink($qs_back,'Back','greenoutline');
 <?
 $id  = 'tog_' . $this->getNumber();
 $hr = '<A HREF="javascript:void(0)" ONCLICK="toggleDisplay(\'' . $id . '\')">'
-    . 'Issuer</A>';
+    . 'Издатель</A>';
 $targ  = '_viewCaCert' . $issuer->Id;
 $ca_cn = ($issuer->CommonName) ? $issuer->CommonName : 'not set';
 $ca_hr = '<A TARGET="' . $targ . '" HREF="' . $qs_issuer . '">'
@@ -209,7 +209,7 @@ if (!$expired and !$revoked) {
 <TABLE ALIGN="center">
 	<TR>
 		<TH>
-			commonName
+			Имя издателя - commonName
 		</TH>
 		<TD CLASS="<?= $class; ?>">
 			<?= $ca_hr; ?>
@@ -218,7 +218,7 @@ if (!$expired and !$revoked) {
 <? if ($issuer->OrgName) { ?>
 	<TR>
 		<TH>
-			Organization
+			Организация
 		</TH>
 		<TD CLASS="<?= $class; ?>">
 			<?= $issuer->OrgName; ?>
@@ -228,7 +228,7 @@ if (!$expired and !$revoked) {
 <? if ($issuer->OrgUnitName) { ?>
 	<TR>
 		<TH>
-			Organizational Unit
+			Отдел
 		</TH>
 		<TD CLASS="<?= $class; ?>">
 			<?= $issuer->OrgUnitName; ?>
@@ -238,7 +238,7 @@ if (!$expired and !$revoked) {
 <? if ($revoked) { ?>
 	<TR>
 		<TH>
-			Date Revoked
+			Дата отзыва
 		</TH>
 		<TD CLASS="<?= $class; ?>">
 			<?= $issuer->RevokeDate; ?>
@@ -248,10 +248,10 @@ if (!$expired and !$revoked) {
 if ($issuer->ValidFrom and $issuer->ValidTo) { ?>
 	<TR>
 		<TH>
-			Date Valid
+			Срок действия
 		</TH>
 		<TD CLASS="<?= $class; ?>">
-			<?= $issuer->ValidFrom; ?> to <?= $issuer->ValidTo; ?>
+			<?= $issuer->ValidFrom; ?> до <?= $issuer->ValidTo; ?>
 		</TD>
 	</TR>
 <? }
@@ -263,7 +263,7 @@ if ($issuer->ValidFrom and $issuer->ValidTo) { ?>
 <?
 $id  = 'tog_' . $this->getNumber();
 $hr = '<A HREF="javascript:void(0)" ONCLICK="toggleDisplay(\'' . $id . '\')">'
-    . 'Certificate</A>';
+    . 'Сертификат</A>';
 ?>
 <DIV ID="dataCategory"><?= $hr; ?></DIV>
 <DIV ID="<?= $id; ?>" STYLE="display: none">
@@ -279,7 +279,7 @@ $hr = '<A HREF="javascript:void(0)" ONCLICK="toggleDisplay(\'' . $id . '\')">'
 if ($cert->hasPrivateKey()) {
 $id  = 'tog_' . $this->getNumber();
 $hr = '<A HREF="javascript:void(0)" ONCLICK="toggleDisplay(\'' . $id . '\')">'
-    . 'Private Key</A>';
+    . 'Приватный ключ</A>';
 ?>
 <DIV ID="dataCategory"><?= $hr; ?></DIV>
 <DIV ID="<?= $id; ?>" STYLE="display: none">
@@ -296,7 +296,7 @@ $hr = '<A HREF="javascript:void(0)" ONCLICK="toggleDisplay(\'' . $id . '\')">'
 if ($cert->hasPublicKey()) {
 $id  = 'tog_' . $this->getNumber();
 $hr = '<A HREF="javascript:void(0)" ONCLICK="toggleDisplay(\'' . $id . '\')">'
-    . 'Public Key</A>';
+    . 'Публичный ключ</A>';
 ?>
 <DIV ID="dataCategory"><?= $hr; ?></DIV>
 <DIV ID="<?= $id; ?>" STYLE="display: none">
@@ -313,7 +313,7 @@ $hr = '<A HREF="javascript:void(0)" ONCLICK="toggleDisplay(\'' . $id . '\')">'
 <?
 $id  = 'tog_' . $this->getNumber();
 $hr = '<A HREF="javascript:void(0)" ONCLICK="toggleDisplay(\'' . $id . '\')">'
-    . 'Certificate Request</A>';
+    . 'Запрос на сертификат</A>';
 ?>
 <DIV ID="dataCategory"><?= $hr; ?></DIV>
 <DIV ID="<?= $id; ?>" STYLE="display: none">

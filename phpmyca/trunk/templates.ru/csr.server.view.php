@@ -10,7 +10,7 @@
 
 $data =& $this->getVar('data');
 if (!is_a($data,'phpmycaCsrServer')) {
-	$m = 'Required data is missing, cannot continue.';
+	$m = 'Отсутствуют необходимые данные, повторите.';
 	die($this->getPageError($m));
 	}
 
@@ -27,84 +27,84 @@ $isEncrypted = (strpos($data->getProperty('PrivateKey'),'ENCRYPTED') === false) 
 $qs_download = $this->getActionQs(WA_ACTION_CSR_SERVER_DOWNLOAD);
 
 // footer links
-$this->addMenuLink($qs_download,'Download CSR','greenoutline');
+$this->addMenuLink($qs_download,'Загрузить CSR','greenoutline');
 if ($data->getProperty('PrivateKey')) {
 	if ($isEncrypted) {
 		$qs = $this->getActionQs(WA_ACTION_CSR_SERVER_CHANGE_PASS);
-		$this->addMenuLink($qs,'Change Private Key Password','greenoutline');
+		$this->addMenuLink($qs,'Изменить пароль приватного ключа','greenoutline');
 		$qs = $this->getActionQs(WA_ACTION_CSR_SERVER_DECRYPT);
-		$this->addMenuLink($qs,'Decrypt Private Key','greenoutline');
+		$this->addMenuLink($qs,'Расшифровать приватный ключ','greenoutline');
 		} else {
 		$qs = $this->getActionQs(WA_ACTION_CSR_SERVER_ENCRYPT);
-		$this->addMenuLink($qs,'Encrypt Private Key','greenoutline');
+		$this->addMenuLink($qs,'Зашифровать приватный ключ','greenoutline');
 		}
 	}
-$this->addMenuLink($qs_edit,'Edit','greenoutline');
-$this->addMenuLink($qs_back,'Back','greenoutline');
+$this->addMenuLink($qs_edit,'Редактировать','greenoutline');
+$this->addMenuLink($qs_back,'Назад','greenoutline');
 ?>
 <?= $this->getPageHeader(); ?>
 <TABLE ALIGN="center">
 	<TR>
-		<TH>CSR ID</TH>
+		<TH>Номер CSR</TH>
 		<TD>
 			<?= $data->getProperty('Id') . "\n"; ?>
 		</TD>
 	</TR>
 	<TR>
-		<TH>Description</TH>
+		<TH>Описание</TH>
 		<TD>
 			<?= $data->getProperty('Description') . "\n"; ?>
 		</TD>
 	</TR>
 	<TR>
-		<TH>Server (commonName)</TH>
+		<TH>Сервер (commonName)</TH>
 		<TD>
 			<?= $data->getProperty('CommonName') . "\n"; ?>
 		</TD>
 	</TR>
 <? if ($hasContact) { ?>
 	<TR>
-		<TH COLSPAN="2">Contact Information</TH>
+		<TH COLSPAN="2">Контактная информация</TH>
 	</TR>
 <? if ($data->getProperty('EmailAddress')) { ?>
 	<TR>
-		<TH>Email Address</TH>
+		<TH>Email</TH>
 		<TD><?= $data->getProperty('EmailAddress'); ?></TD>
 	</TR>
 <? } ?>
 <? if ($data->getProperty('OrgName')) { ?>
 	<TR>
-		<TH>Organization</TH>
+		<TH>Организация</TH>
 		<TD><?= $data->getProperty('OrgName'); ?></TD>
 	</TR>
 <? } ?>
 <? if ($data->getProperty('OrgUnitName')) { ?>
 	<TR>
-		<TH>Organizational Unit</TH>
+		<TH>Отдел</TH>
 		<TD><?= nl2br($data->getProperty('OrgUnitName')); ?></TD>
 	</TR>
 <? } ?>
 <? if ($data->getProperty('LocalityName')) { ?>
 	<TR>
-		<TH>Location</TH>
+		<TH>Населенный пункт</TH>
 		<TD><?= nl2br($data->getProperty('LocalityName')); ?></TD>
 	</TR>
 <? } ?>
 <? if ($data->getProperty('StateName')) { ?>
 	<TR>
-		<TH>State/Province</TH>
+		<TH>Область/Край</TH>
 		<TD><?= $data->getProperty('StateName'); ?></TD>
 	</TR>
 <? } ?>
 <? if ($data->getProperty('CountryName')) { ?>
 	<TR>
-		<TH>Country</TH>
+		<TH>Страна</TH>
 		<TD><?= $data->getProperty('CountryName'); ?></TD>
 	</TR>
 <? } ?>
 <? } ?>
 	<TR>
-		<TH>Created</TH>
+		<TH>Создан</TH>
 		<TD>
 			<?= $data->getProperty('CreateDate') . "\n"; ?>
 		</TD>
@@ -115,7 +115,7 @@ $this->addMenuLink($qs_back,'Back','greenoutline');
 if ($data->getProperty('PrivateKey')) {
 $id  = 'tog_' . $this->getNumber();
 $hr = '<A HREF="javascript:void(0)" ONCLICK="toggleDisplay(\'' . $id . '\')">'
-    . 'Private Key</A>';
+    . 'Приватный ключ</A>';
 ?>
 <DIV ID="dataCategory"><?= $hr; ?></DIV>
 <DIV ID="<?= $id; ?>" STYLE="display: none">
@@ -132,7 +132,7 @@ $hr = '<A HREF="javascript:void(0)" ONCLICK="toggleDisplay(\'' . $id . '\')">'
 if ($data->getProperty('PublicKey')) {
 $id  = 'tog_' . $this->getNumber();
 $hr = '<A HREF="javascript:void(0)" ONCLICK="toggleDisplay(\'' . $id . '\')">'
-    . 'Public Key</A>';
+    . 'Публичный ключ</A>';
 ?>
 <DIV ID="dataCategory"><?= $hr; ?></DIV>
 <DIV ID="<?= $id; ?>" STYLE="display: none">
@@ -149,7 +149,7 @@ $hr = '<A HREF="javascript:void(0)" ONCLICK="toggleDisplay(\'' . $id . '\')">'
 <?
 $id  = 'tog_' . $this->getNumber();
 $hr = '<A HREF="javascript:void(0)" ONCLICK="toggleDisplay(\'' . $id . '\')">'
-    . 'Certificate Request</A>';
+    . 'Запрос сертификата</A>';
 ?>
 <DIV ID="dataCategory"><?= $hr; ?></DIV>
 <DIV ID="<?= $id; ?>" STYLE="display: none">

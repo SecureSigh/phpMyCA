@@ -26,8 +26,8 @@ $class     = '';
 
 // footer links
 $l = array();
-$this->addMenuLink($qs_add,'Generate Server CSR','greenoutline');
-$this->addMenuLink($qs_back,'CSR Menu','greenoutline');
+$this->addMenuLink($qs_add,'Создание запроса серверу (CSR)','greenoutline');
+$this->addMenuLink($qs_back,'Меню запроса CSR','greenoutline');
 ?>
 <?= $this->getPageHeader(); ?>
 <TABLE ALIGN="center" WIDTH="100%">
